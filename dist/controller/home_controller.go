@@ -2,15 +2,17 @@ package controller
 
 import (
 	"github.com/labstack/echo"
+	"github.com/myyrakle/gopring_example/dist/service"
 )
 
 // @Controller(/)
 type HomeController struct {
+	service *service.HomeService
 }
 
 // @GetMapping("/")
 func (this HomeController) Index(c echo.Context) string {
-	return "hello world"
+	return this.service.GetHello()
 }
 
 type HealthCheckResponse struct {
@@ -23,3 +25,11 @@ func (this *HomeController) HelathCheck(c echo.Context) HealthCheckResponse {
 		Ok: true,
 	}
 }
+
+
+func GopringNewController_HomeController(service *service.HomeService, ) *HomeController {
+	return &HomeController{
+		service: service,
+	}
+}
+
