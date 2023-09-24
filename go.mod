@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/labstack/echo v3.3.10+incompatible
+	github.com/lib/pq v1.10.9
 	github.com/myyrakle/gopring v0.3.0
 	go.uber.org/fx v1.20.0
 )

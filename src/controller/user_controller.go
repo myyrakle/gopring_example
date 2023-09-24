@@ -12,11 +12,19 @@ type UserController struct {
 }
 
 // @PostMapping("/signup")
-func (this *UserController) Signup(c echo.Context, body dto.SignupRequest) string {
+func (this *UserController) Signup(
+	c echo.Context,
+	// @RequestBody
+	body dto.SignupRequest,
+) string {
 	return this.service.DoSignup(body)
 }
 
 // @PostMapping("/login")
-func (this *UserController) Login(c echo.Context, body dto.LoginRequest) dto.LoginResponse {
+func (this *UserController) Login(
+	c echo.Context,
+	// @RequestBody
+	body dto.LoginRequest,
+) dto.LoginResponse {
 	return this.service.DoLogin(body)
 }

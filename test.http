@@ -1,0 +1,22 @@
+
+
+### 
+POST http://localhost:7777/user/signup 
+Content-Type: application/json
+
+{
+    "id": "test@foo.bar",
+    "password": "q1w2e3r4", 
+    "name": "foo"
+}
+### 
+
+### 
+POST http://localhost:7777/user/login 
+Content-Type: application/json
+
+{
+    "id": "test@foo.bar",
+    "password": "q1w2e3r4"
+}
+### 

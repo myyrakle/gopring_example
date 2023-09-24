@@ -1,10 +1,9 @@
 package repository
 
 import (
-	"database/sql"
-
 	component "github.com/myyrakle/gopring_example/src/compoent"
 	"github.com/myyrakle/gopring_example/src/dto"
+	"github.com/myyrakle/gopring_example/src/model"
 )
 
 // @Repository
@@ -19,9 +18,23 @@ func (c *UserRepository) CreateUser(request dto.SignupRequest) error {
 	return err
 }
 
-func (c *UserRepository) FindUserByID(id string) *sql.Row {
+func (c *UserRepository) FindUserByID(id string) (model.User, error) {
 	db := c.postgresComponent.DB()
-	row := db.QueryRow("SELECT * FROM users WHERE id = $1", id)
+	rows, err := db.Query("SELECT id, name, password FROM users WHERE id = $1", id)
 
-	return row
+	if err != nil {
+		return model.User{}, err
+	}
+
+	_id := ""
+	name := ""
+	password := ""
+	rows.Next()
+	rows.Scan(&_id, &name, &password)
+
+	return model.User{
+		Id:       _id,
+		Name:     name,
+		Password: password,
+	}, nil
 }

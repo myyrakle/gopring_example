@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/myyrakle/gopring_example/src/dto"
 	"github.com/myyrakle/gopring_example/src/repository"
 )
@@ -11,26 +13,22 @@ type UserService struct {
 }
 
 func (c *UserService) DoSignup(request dto.SignupRequest) string {
-	c.userRepository.CreateUser(request)
+	if err := c.userRepository.CreateUser(request); err != nil {
+		fmt.Println(err)
+		return "fail"
+	}
 	return "success"
 }
 
 func (c *UserService) DoLogin(request dto.LoginRequest) dto.LoginResponse {
-	user := c.userRepository.FindUserByID(request.Id)
+	user, err := c.userRepository.FindUserByID(request.Id)
 
-	if user == nil {
+	if err != nil {
+		fmt.Println(err)
 		return dto.LoginResponse{Success: false}
 	}
 
-	type User struct {
-		Id       string `db:"id"`
-		Name     string `db:"name"`
-		Password string `db:"password"`
-	}
-	data := User{}
-	user.Scan(&data)
-
-	if data.Password != request.Password {
+	if user.Password != request.Password {
 		return dto.LoginResponse{Success: false}
 	} else {
 		return dto.LoginResponse{Success: true, AccessToken: "...."}
